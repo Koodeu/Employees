@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Users
+  description: User
+  version: 1.0.0
+paths:
+  /users:
+    get:
+      operationId: fetchUsers
+      summary: Returns a list of users.
+      description: Returns users
+      tags:
+        - User
+      parameters:
+        - in: query
+          name: firstname
+          required: false
+          example: Adam
+          schema:
+            type: string
+        - in: query
+          name: lastname
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returned requested users!
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+
+    post:
+      operationId: createUser
+      summary: Creates a user.
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '201':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+  /users/{userId}:
+    get:
+      operationId: fetchUserById
+      summary: Returns a user by ID.
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: Parameter description in CommonMark or HTML.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+    delete:
+      operationId: deleteUserById
+      summary: deletes user by ID
+      tags:
+        - User
+      parameters:
+        - name: userId
+          in: path
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: string id of user to delete
+      responses:
+        '204':
+          description: User that was deleted
+        '400':
+          description: Bad request. User ID must be an integer and larger than 0.
+        '401':
+          description: Authorization information is missing or invalid.
+        '404':
+          description: A user with the specified ID was not found.
+    put:
+      operationId: modifyUserById
+      summary: Modifies user by ID
+      tags:
+        - User
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+      responses:
+        '201':
+          description: User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: The specified user ID is invalid (not a number)
+        '404':
+          description: A user with the specified ID was not found.
+        '401':
+          description: User unauthorized.
+
+components:
+  schemas:
+    UserDto:
+      properties:
+        id:
+          type: string
+          format: uuid
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        roleType:
+          $ref: '#/components/schemas/RoleType'
+
+    RoleType:
+      enum:
+        - ROLE_MANAGER
+        - ROLE_ADMIN
+        - ROLE_EMPLOYEE
+
+

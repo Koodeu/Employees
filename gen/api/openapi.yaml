@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  description: User
+  title: Users
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /users:
+    get:
+      description: Returns users
+      operationId: fetchUsers
+      parameters:
+      - example: Adam
+        explode: true
+        in: query
+        name: firstname
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: lastname
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserDto'
+                type: array
+          description: Successfully returned requested users!
+      summary: Returns a list of users.
+      tags:
+      - User
+      x-accepts: application/json
+    post:
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: User Created
+        "400":
+          description: Bad request. User ID must be an integer and larger than 0.
+        "401":
+          description: Authorization information is missing or invalid.
+        "404":
+          description: A user with the specified ID was not found.
+      summary: Creates a user.
+      tags:
+      - User
+      x-contentType: application/json
+      x-accepts: application/json
+  /api/v1/users/{userId}:
+    delete:
+      operationId: deleteUserById
+      parameters:
+      - description: string id of user to delete
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: User that was deleted
+        "400":
+          description: Bad request. User ID must be an integer and larger than 0.
+        "401":
+          description: Authorization information is missing or invalid.
+        "404":
+          description: A user with the specified ID was not found.
+      summary: deletes user by ID
+      tags:
+      - User
+      x-accepts: application/json
+    get:
+      operationId: fetchUserById
+      parameters:
+      - description: Parameter description in CommonMark or HTML.
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: OK
+        "400":
+          description: Bad request. User ID must be an integer and larger than 0.
+        "401":
+          description: Authorization information is missing or invalid.
+        "404":
+          description: A user with the specified ID was not found.
+      summary: Returns a user by ID.
+      tags:
+      - User
+      x-accepts: application/json
+    put:
+      operationId: modifyUserById
+      parameters:
+      - explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDto'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+          description: User Updated
+        "400":
+          description: The specified user ID is invalid (not a number)
+        "404":
+          description: A user with the specified ID was not found.
+        "401":
+          description: User unauthorized.
+      summary: Modifies user by ID
+      tags:
+      - User
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    UserDto:
+      example:
+        firstName: firstName
+        lastName: lastName
+        password: password
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        roleType: '{}'
+        email: email
+      properties:
+        id:
+          format: uuid
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        roleType:
+          $ref: '#/components/schemas/RoleType'
+    RoleTypeDto:
+      enum:
+      - ROLE_MANAGER
+      - ROLE_ADMIN
+      - ROLE_EMPLOYEE
+      type: string
+

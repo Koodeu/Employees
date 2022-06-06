@@ -33,5 +33,5 @@ public class UserService {
             throw new NoSuchElementException("User with given ID " + id + "does not exist in database");
         }
         userRepository.deleteById(id);
-    }
+    }aedar
 }

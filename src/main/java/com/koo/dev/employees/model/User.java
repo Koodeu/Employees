@@ -5,6 +5,7 @@ import com.koo.dev.employees.models.RoleType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.Audited;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Enumerated;
 @Getter
 @Setter
 @NoArgsConstructor
+@Audited
 public class User extends com.koo.dev.employees.model.BaseEntity {
 
 

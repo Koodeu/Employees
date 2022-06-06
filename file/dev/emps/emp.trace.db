@@ -1,0 +1,8 @@
+2022-05-18 12:51:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "USER" nie istnieje
+Table "USER" not found; SQL statement:
+select user0_.id as id1_1_0_, user0_.email as email2_1_0_, user0_.first_name as first_na3_1_0_, user0_.last_name as last_nam4_1_0_, user0_.password as password5_1_0_, user0_.role_type as role_typ6_1_0_ from user user0_ where user0_.id=? [42102-200]
+2022-05-18 12:59:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "USER" nie istnieje
+Table "USER" not found; SQL statement:
+select user0_.id as id1_1_0_, user0_.email as email2_1_0_, user0_.first_name as first_na3_1_0_, user0_.last_name as last_nam4_1_0_, user0_.password as password5_1_0_, user0_.role_type as role_typ6_1_0_ from user user0_ where user0_.id=? [42102-200]
